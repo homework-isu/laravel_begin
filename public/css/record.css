@@ -1,0 +1,22 @@
+
+.container *:not(:last-child) {
+	border-bottom: 2px solid #1f62a9;
+}
+
+.title {
+	font-size: 24px;
+	font-weight: bold;
+	color: #007bff;
+	margin-bottom: 10px;
+}
+
+.content {
+	font-size: 16px;
+	line-height: 1.6;
+	margin-bottom: 20px;
+}
+
+.author {
+	font-size: 14px;
+	color: #555;
+}
