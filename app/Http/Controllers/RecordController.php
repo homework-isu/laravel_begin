@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Record;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RecordController extends Controller
 {
@@ -26,42 +28,20 @@ class RecordController extends Controller
 		return view('all_records', ['records' => $data]);
 	}
 
-	public function record(Request $request) {
-        $fileName = $request->input('filename');
-        $filePath = storage_path("records/{$fileName}");
-
-
-        if (File::exists($filePath)) {
-
-            $jsonData = file_get_contents($filePath);
-            $record = json_decode($jsonData, true);
-        } else {
-            return response()->json(['error' => 'File not found'], 404);
-        }
-		
+	public function record($id) {
+        $record = Record::find($id);
 		return view('record', compact('record'));
 	}
 
 	public function store(Request $request) {
-		$validData = Validator::make($request->all(), [
-			'title' => 'required|string|max:255',
-			'content' => 'required|string',
-			'author' => 'string|max:50',
+		$data  = $request->validate([
+			'title' => ['required', 'string'],
+			'text' => ['required', 'string'],
 		]);
-
-		if ($validData->fails()) {
-			return redirect('add_record?error='.$validData->errors());
-		}
-		echo $request->input('title');
-		$record = [
-			'title' => $request->input('title'),
-			'content' => $request->input('content'),
-            'author' => $request->input('author'),
-		];
+		
+		$data['user_id'] = Auth::id();
         
-		$filename = 'record_' . uniqid() . '.json';
-		File::put(storage_path('records/' . $filename), json_encode($record, JSON_UNESCAPED_UNICODE));
-
-		return redirect('/record?filename=' . $filename);
+		$record = Record::add_record($data);
+		return redirect('/record/' . $record->id);
     }
 }

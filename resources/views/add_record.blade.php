@@ -10,11 +10,15 @@
 		<label for="title">Title:</label>
 		<input type="text" name="title" required>
 
-		<label for="content">Content:</label>
-		<input type="text" name="content" required>
+		@error('title')
+			<div class="error">{{ $message }}</div>
+		@enderror
 
-		<label for="author">Author:</label>
-		<input type="text" name="author">
+		<label for="text">Text:</label>
+		<input type="text" name="text" required>
+		@error('text')
+			<div class="error">{{ $message }}</div>
+		@enderror
 
 		<input type="submit" value="Submit">
 	</form>

@@ -2,8 +2,8 @@
     <div class="title">
         {{ $record['title'] }}
     </div>
-    <div class="content">
-        {{ $record['content'] }}
+    <div class="text">
+        {{ $record['text'] }}
     </div>
 
     @isset($record['author'])
