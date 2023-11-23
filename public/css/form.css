@@ -20,13 +20,18 @@ label {
 	font-weight: bold;
 }
 
-input {
+input, textarea {
 	width: 100%;
 	padding: 8px;
 	margin-bottom: 16px;
 	box-sizing: border-box;
 	border: 1px solid #ccc;
 	border-radius: 4px;
+}
+
+textarea {
+	min-height: 300px;
+	resize: none;
 }
 
 input[type="submit"] {

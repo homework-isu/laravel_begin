@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Record;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -24,11 +25,8 @@ class UserController extends Controller
 	}
 
 	public function profile() {
-		if (Auth::check()) {
-			$user = Auth::user();
-			return view('user.profile', compact('user'));
-		} else {
-			redirect('/login');
-		}
+		$user = Auth::user();
+		$records = Record::get_all_user_records($user->id);
+		return view('user.profile', compact('user'), compact('records'));
 	}
 }

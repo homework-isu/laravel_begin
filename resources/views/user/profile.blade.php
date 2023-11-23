@@ -20,4 +20,12 @@
             </div>
         </div>
     </div>
+
+	@forelse ($records as $record)
+		@include('record.record_with_options_template', ['record' => $record])
+	@empty
+		<h1>Нет доступных записей</h1>
+	@endforelse 
+
+
 @endsection

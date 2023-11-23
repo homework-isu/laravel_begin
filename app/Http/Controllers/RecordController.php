@@ -4,33 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Record;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class RecordController extends Controller
 {
 	public function add_record(Request $request) {
 		$error = $request->input('error');
-		return view('add_record', ['error' => $error]);
+		return view('record.add_record', ['error' => $error]);
+	}
+
+	public function update_record($id) {
+		$user_id = Auth::id();
+		$record = Record::get_record_for_effect($user_id, $id);
+		if ($record != null) {
+			return view('record.update_record', compact('record'));
+		} else {
+			return back();
+		}
 	}
 
 	public function all_records() {
-		$jsonFiles = File::files(storage_path('records'));
-
-		$data = [];
-		foreach ($jsonFiles as $jsonFile) {
-			$jsonData = file_get_contents($jsonFile);
-			$decodedData = json_decode($jsonData, true);
-			$data[] = $decodedData;
-		}
-
-		return view('all_records', ['records' => $data]);
+		$data = Record::get_all_records();
+		return view('record.all_records', ['records' => $data]);
 	}
 
 	public function record($id) {
-        $record = Record::find($id);
-		return view('record', compact('record'));
+        $record = Record::get_record($id);
+		return view('record.record', compact('record'));
 	}
 
 	public function store(Request $request) {
@@ -44,4 +44,23 @@ class RecordController extends Controller
 		$record = Record::add_record($data);
 		return redirect('/record/' . $record->id);
     }
+
+	public function delete(Request $request) {
+		$data  = $request->validate([
+			'id' => ['required', 'numeric'],
+		]);
+		Record::destroy($data['id']);
+		return back();
+	}
+
+	public function update(Request $request) {
+		$data  = $request->validate([
+			'id' => ['required', 'numeric'],
+			'title' => ['required', 'string'],
+			'text' => ['required', 'string'],
+		]);
+		$record = Record::find($data['id']);
+		$record->update($data);
+		return redirect('/profile/');
+	}
 }

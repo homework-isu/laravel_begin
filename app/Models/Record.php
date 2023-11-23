@@ -22,4 +22,24 @@ class Record extends Model
 		return Record::find($user_id);
 	}
 
+	static public function get_record($id) {
+		$query = Record::join('users', 'records.user_id', '=', 'users.id')->select('records.*', 'users.username')->where("records.id", $id);
+		return $query->first();
+	}
+
+	static public function get_all_records() {
+		$query = Record::join('users', 'records.user_id', '=', 'users.id')->select('records.*', 'users.username');
+		return $query->get();
+	}
+
+	static public function get_all_user_records($user_id) {
+		$query = Record::join('users', 'records.user_id', '=', 'users.id')->select('records.*', 'users.username')->where("user_id", $user_id);
+		return $query->get();
+	}
+
+	static public function get_record_for_effect($user_id, $record_id) {
+		$query = Record::select('records.*')->where('user_id', $user_id)->where('id', $record_id);
+		return $query->first();
+	}	
+
 }

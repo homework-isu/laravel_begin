@@ -1,4 +1,4 @@
 @extends('layouts.main_with_records')
 @section('content')
-	@include('partials.record', ['record' => $record])
+	@include('record.record_template', ['record' => $record])
 @endsection

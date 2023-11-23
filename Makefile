@@ -14,5 +14,11 @@ db-connect:
 migrate-up:
 	@php artisan migrate
 
+migrate-down:
+	@php artisan migrate:rollback
+
+migrate-status:
+	@php artisan migrate:status
+
 migrate-fresh:
 	@php artisan migrate:fresh

@@ -13,7 +13,11 @@
 <body>
 	<div class="app">
 		@include('partials.header')
-		@yield('content')
+		<div class="wrapper">
+			<div class="inner">
+				@yield('content')
+			</div>
+		</div>
 	</div>
 	@include('partials.footer')
 </body>
