@@ -22,10 +22,15 @@
     </div>
 
 	@forelse ($records as $record)
-		@include('record.record_with_options_template', ['record' => $record])
+		@include('record.record_with_options_template', ['record' => $record, 'comments' => $comments[$record['id']]])
 	@empty
 		<h1>Нет доступных записей</h1>
 	@endforelse 
 
 
+@endsection
+
+@section('custom_js')
+	<script src="{{ asset('js/show_comments.js') }}"></script>
+	<script src="{{ asset('js/load_comments.js') }}"></script>
 @endsection

@@ -28,8 +28,12 @@ Route::middleware('auth')->group( function () {
 	Route::post('/record', [RecordController::class,'store'])->name('add_record_process');
 	Route::delete('/record', [RecordController::class, 'delete'])->name('record.delete');
 	Route::put('/record', [RecordController::class, 'update'])->name('record.update');
+	
+	Route::put('/record/revome', [RecordController::class, 'remove_note_from_publication'])->name('record.remove');
+	Route::put('/record/return', [RecordController::class, 'return_record_to_publication'])->name('record.return');
 
-	Route::post('/comment', [CommentController::class, 'create_comment'])->name('create_comment');
+	Route::post('/comment', [CommentController::class, 'create_comment'])->name('comment.create');
+	Route::delete('/comment', [CommentController::class, 'delete_comment'])->name('comment.delete');
 });
 
 Route::middleware('guest')->group( function () {

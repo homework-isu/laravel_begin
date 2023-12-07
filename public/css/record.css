@@ -4,23 +4,24 @@
 } */
 
 .container {
-	width: 320px;
+	width: 420px;
+	min-width: 320px;
 }
 
 .title {
-	font-size: 24px;
+	font-size: 32px;
 	font-weight: bold;
 	color: #007bff;
 	margin-bottom: 10px;
 }
 
 .text {
-	font-size: 18px;
+	font-size: 22px;
 	margin-bottom: 10px;
 }
 
 .content {
-	font-size: 16px;
+	font-size: 22px;
 	line-height: 1.6;
 	margin-bottom: 20px;
 }
@@ -41,8 +42,8 @@ label {
     margin-bottom: 5px;
 }
 
-input[type="text"],
-textarea {
+form input[type="text"],
+form textarea {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
@@ -87,4 +88,50 @@ button:hover {
 .comment_form textarea {
 	height: auto;
 	resize: none;
+}
+
+.comments-add {
+	display: flex;
+	padding: 10px 0 10px 0;
+	align-items: stretch;
+	justify-content: space-between;
+}
+
+.comments-add textarea {
+	padding: 5px;
+	flex-basis: 70%;
+	resize: none;
+	border: 2px solid gray;
+	border-radius: 8px;
+	margin-right: 10px;
+}
+
+.comments-add textarea:focus {
+	outline: none;
+}
+
+.comments-add button {
+	flex-basis: 10%;
+}
+
+.actions {
+	display: flex;
+	justify-content: start;
+}
+
+/* .actions form {
+	width: 90px;
+	margin: 0;
+} */
+
+.delete {
+	background-color: rgb(136, 17, 17);
+}
+
+.delete:hover {
+	background-color: rgb(111, 15, 15);
+}
+
+.remove {
+	width: 200px;
 }

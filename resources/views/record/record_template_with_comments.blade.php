@@ -18,13 +18,17 @@
             {{ $record['created_at'] }}
         </div>
     @endisset
-	
+	@isset($commentable)
+		@include('comments.add_comment', ['id' => $record['id']])
+	@endisset
+
+
 	<div class="comments_block">
 		<span>Комментариев</span>
 		<span class="comments_count"></span>
 	</div>
 	<button class="show_comments", onclick="show_comments(event, {{ $record['id'] }})">показать комментарии</button>
 </div>
-@include('comments.add_comment', ['id' => $record['id']])
+
 
 

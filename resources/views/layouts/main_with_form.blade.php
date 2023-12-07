@@ -20,5 +20,6 @@
 		</div>
 	</div>
 	@include('partials.footer')
+	@yield('custom_js')
 </body>
 </html>

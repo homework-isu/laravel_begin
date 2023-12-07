@@ -37,10 +37,11 @@ class RecordController extends Controller
 		$data  = $request->validate([
 			'title' => ['required', 'string'],
 			'text' => ['required', 'string'],
+			'publish_at_time' => ['nullable', 'boolean'],
+			'publisher_time' => ['nullable', 'date_format:Y-m-d\TH:i']
 		]);
-		
 		$data['user_id'] = Auth::id();
-        
+        // dd($data);
 		$record = Record::add_record($data);
 		return redirect('/record/' . $record->id);
     }
@@ -49,8 +50,14 @@ class RecordController extends Controller
 		$data  = $request->validate([
 			'id' => ['required', 'numeric'],
 		]);
-		Record::destroy($data['id']);
-		return back();
+
+		if (Record::can_user_edit(Auth::id(), $data['id'])) {
+			Record::destroy($data['id']);
+			return back();
+		}
+		return back()->withErrors([
+            'error' => 'You can not eddit this note',
+        ]);
 	}
 
 	public function update(Request $request) {
@@ -59,8 +66,48 @@ class RecordController extends Controller
 			'title' => ['required', 'string'],
 			'text' => ['required', 'string'],
 		]);
-		$record = Record::find($data['id']);
-		$record->update($data);
-		return redirect('/profile/');
+		$user_id = Auth::id();
+		if (Record::can_user_edit($user_id, $data['id'])) {
+			$record = Record::find($data['id']);
+			$record->update($data);
+			return redirect('/profile/');
+		}
+		
+		return back()->withErrors([
+            'error' => 'You can not eddit this note',
+        ]);
+	}
+
+	public function remove_note_from_publication(Request $request) {
+		$data  = $request->validate([
+			'id' => ['required', 'numeric'],
+		]);
+		$user_id = Auth::id();
+		
+		if (Record::can_user_edit($user_id, $data['id'])) {
+			$note = Record::find($data['id']);
+			$note->update(['removed_from_publication' => true]);
+			return back();
+		}
+		dd($data);
+		return back()->withErrors([
+            'error' => 'You can not eddit this note',
+        ]);
+	}
+
+	public function return_record_to_publication(Request $request) {
+		$data  = $request->validate([
+			'id' => ['required', 'numeric'],
+		]);
+		$user_id = Auth::id();
+		if (Record::can_user_edit($user_id, $data['id'])) {
+			$note = Record::find($data['id']);
+			$note->update(['removed_from_publication' => false]);
+
+			return back();
+		}
+		return back()->withErrors([
+            'error' => 'You can not eddit this note',
+        ]);
 	}
 }

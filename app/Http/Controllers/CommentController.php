@@ -34,4 +34,13 @@ class CommentController extends Controller
 		return response()->json(['count' => $data]);
 	}
 
+	public function delete_comment(Request $request) {
+		$data  = $request->validate([
+			'id' => ['required', 'numeric'],
+		]);
+
+		Comment::destroy($data['id']);
+		return back();
+	}
+
 }
